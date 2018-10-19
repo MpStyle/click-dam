@@ -1,10 +1,14 @@
 # Click DAM
 
+My first approach to Electron world.
+
 ## To Use
 
 ```bash
 # Install dependencies
 npm install
+#Build
+npm run build
 # Run the app
 npm start
 ```

@@ -23,7 +23,7 @@ const tsloader = {
 
 const output = {
     filename: '[name].js',
-    path: __dirname + "/../dist/js"
+    path: __dirname + "./dist/js"
 }
 
 const clean = new CleanWebpackPlugin([

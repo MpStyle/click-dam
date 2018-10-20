@@ -8,7 +8,8 @@ import ImageView, { ImageViewProps } from "./ImageView";
 export const ImageViewContainer = connect<ImageViewProps, ImageViewProps, ImageViewContainerProps>(
     (state: AppState, props: ImageViewContainerProps): ImageViewProps => {
         return {
-            image: props.image
+            image: props.image,
+            imageSize: state.home.iconsSize
         } as ImageViewProps;
     },
     (dispatch: Dispatch, props: ImageViewContainerProps): ImageViewProps => {

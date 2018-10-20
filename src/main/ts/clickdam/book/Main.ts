@@ -25,7 +25,7 @@ export class Main {
 
     static pageSize = (): number => (25)
 
-    static thumbSizes = (): number[] => ([100, 200, 300, 400, 500])
+    static thumbSizes = (): number[] => ([200, 300, 400])
 
     static defaultWindowHeight = (): number => (600)
     static defaultHeightWidth = (): number => (800)

@@ -1,5 +1,6 @@
 import { Action } from "redux";
 import { BACK_TO_HOME_TYPE } from "../action/BackToHome";
+import { ChangeImagesSize, CHANGE_IMAGES_SIZE_TYPE } from "../action/ChangeImagesSize";
 import { EditImage, EDIT_IMAGE_TYPE } from "../action/EditImage";
 import { EndImportingImages, END_IMPORTING_IMAGES_TYPE } from "../action/EndImportingImages";
 import { FindedImages, FINDED_IMAGES_TYPE } from "../action/FindedImages";
@@ -24,6 +25,16 @@ export const appReducer = (state: AppState = Renderer.initialState, action: Acti
 
 const fetchNewState = (state: AppState = Renderer.initialState, action: Action): AppState => {
     switch (action.type) {
+        case CHANGE_IMAGES_SIZE_TYPE:
+            let changeImagesSize = action as ChangeImagesSize
+
+            return {
+                ...state,
+                home: {
+                    ...state.home,
+                    iconsSize: changeImagesSize.size
+                }
+            } as AppState
         case TEXT_SEARCH_TYPE:
             let textSearchAction = action as TextSearch
 

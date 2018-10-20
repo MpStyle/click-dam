@@ -17,7 +17,7 @@ const styles = (theme: Theme) => createStyles({
 })
 
 const ImageView: React.StatelessComponent<ImageViewProps> = (props: ImageViewProps) => {
-    const imageUrl = "file:///" + props.image.path + "/200/" + props.image.name;
+    const imageUrl = "file:///" + props.image.path + "/" + props.imageSize + "/" + props.image.name;
 
     return <GridListTile
         style={{ marginLeft: '5px', marginTop: '5px', backgroundColor: '#fff' }}
@@ -28,8 +28,8 @@ const ImageView: React.StatelessComponent<ImageViewProps> = (props: ImageViewPro
             backgroundImage: `url(${imageUrl})`,
             backgroundPosition: 'center center',
             backgroundRepeat: 'no-repeat',
-            height: '200px',
-            width: '200px',
+            height: props.imageSize + 'px',
+            width: (props.imageSize + 30) + 'px',
         }}>
         </div>
 
@@ -42,7 +42,7 @@ const ImageView: React.StatelessComponent<ImageViewProps> = (props: ImageViewPro
                             <Icon onClick={e => props.onEditClick(e)} className={props.classes.icon}>edit</Icon>
                         </IconButton>
                     </Tooltip>
-                    {props.image.status == ImageStatus.NONE &&
+                    {(!props.image.status || props.image.status == ImageStatus.NONE) &&
                         <Tooltip title="Offline image" onClick={(e) => { e.stopPropagation(); }}>
                             <IconButton>
                                 <Icon className={props.classes.icon} >cloud_off</Icon>
@@ -74,6 +74,7 @@ export interface ImageViewProps {
         icon: any
     }
     image: Image
+    imageSize: 200 | 300 | 400
     onEditClick: (e: React.MouseEvent<HTMLSpanElement>) => void
 }
 

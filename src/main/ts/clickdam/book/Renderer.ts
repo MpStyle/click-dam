@@ -6,6 +6,9 @@ import { appReducer } from "../reducer/AppReducer";
 
 export class Renderer {
     public static readonly initialState: AppState = {
+        home: {
+            iconsSize: 200
+        },
         images: new Map<string, Image>(),
         currentImagesPage: -1,
         isLastPage: false,

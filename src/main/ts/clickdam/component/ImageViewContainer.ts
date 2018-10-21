@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { deleteImageBuilder } from "../action/DeleteImage";
 import { editImageBuilder } from "../action/EditImage";
 import { AppState } from "../entity/AppState";
 import { Image } from "../entity/Image";
@@ -14,17 +15,16 @@ export const ImageViewContainer = connect<ImageViewProps, ImageViewProps, ImageV
     },
     (dispatch: Dispatch, props: ImageViewContainerProps): ImageViewProps => {
         return {
-            onEditClick: imageEditRequest(dispatch, props.image),
+            onEditClick: (): void => {
+                dispatch(editImageBuilder(props.image));
+            },
+            onDeleteClick: () => {
+                dispatch(deleteImageBuilder(props.image))
+            }
         } as ImageViewProps;
     }
 )(ImageView);
 
 export interface ImageViewContainerProps {
     image: Image
-}
-
-const imageEditRequest = (dispatch: Dispatch, image: Image) => {
-    return (e: React.MouseEvent<Element>): void => {
-        dispatch(editImageBuilder(image));
-    }
 }

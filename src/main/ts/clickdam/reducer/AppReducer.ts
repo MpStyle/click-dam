@@ -1,6 +1,8 @@
 import { Action } from "redux";
 import { BACK_TO_HOME_TYPE } from "../action/BackToHome";
 import { ChangeImagesSize, CHANGE_IMAGES_SIZE_TYPE } from "../action/ChangeImagesSize";
+import { DeleteImage, DELETE_IMAGE_TYPE } from "../action/DeleteImage";
+import { DeletedImage, DELETED_IMAGE_TYPE } from "../action/DeletedImage";
 import { EditImage, EDIT_IMAGE_TYPE } from "../action/EditImage";
 import { EndImportingImages, END_IMPORTING_IMAGES_TYPE } from "../action/EndImportingImages";
 import { FindedImages, FINDED_IMAGES_TYPE } from "../action/FindedImages";
@@ -26,6 +28,30 @@ export const appReducer = (state: AppState = Renderer.initialState, action: Acti
 
 const fetchNewState = (state: AppState = Renderer.initialState, action: Action): AppState => {
     switch (action.type) {
+        case DELETE_IMAGE_TYPE:
+            const deleteImageAction = action as DeleteImage
+            IPCRenderer.sendDeleteImage(deleteImageAction.image)
+
+            return {
+                ...state,
+                home: {
+                    ...state.home,
+                    totalImageCount: state.home.totalImageCount - 1
+                }
+            }
+        case DELETED_IMAGE_TYPE:
+            const deletedImageAction = action as DeletedImage
+            let images03: Map<string, Image> = new Map(state.home.images);
+
+            images03.delete(deletedImageAction.imageId)
+
+            return {
+                ...state,
+                home: {
+                    ...state.home,
+                    images: images03,
+                }
+            }
         case CHANGE_IMAGES_SIZE_TYPE:
             let changeImagesSize = action as ChangeImagesSize
 

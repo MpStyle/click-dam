@@ -36,6 +36,21 @@ export class ImagePersistence {
         })
     }
 
+    delete(imageId: string): Promise<boolean> {
+        let me = this
+
+        return new Promise((resolve, reject) => {
+            me.db.remove({ id: imageId }, { multi: false }, function (err, numRemoved) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+
+                resolve(numRemoved == 1)
+            });
+        })
+    }
+
     insert(image: Image): Promise<Image> {
         let me = this
 

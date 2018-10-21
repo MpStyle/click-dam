@@ -1,5 +1,8 @@
 import { ipcMain, Event } from "electron";
+import * as fs from 'fs';
+import * as path from "path";
 import { Logger } from "../book/Logger";
+import { Main } from "../book/Main";
 import { PathsImporter } from "../book/PathsImporter";
 import { FindedImagesResponse } from "../entity/FindedImagesResponse";
 import { Image } from "../entity/Image";
@@ -27,6 +30,18 @@ export class IPCMain {
                 } as FindedImagesResponse)
             }).catch((err: Error) => {
                 logger.error(err)
+            })
+        })
+
+        ipcMain.on(ChannelNames.DELETE_IMAGE, (event: Event, image: Image) => {
+            Main.thumbSizes().forEach((element: number) => {
+                const imageUrl = image.path + path.sep + element + path.sep + image.name;
+                fs.unlinkSync(imageUrl)
+            });
+            imagePersistence.delete(image.id).then((result: boolean) => {
+                if (result) {
+                    event.sender.send(ChannelNames.DELETED_IMAGE, image.id)
+                }
             })
         })
 

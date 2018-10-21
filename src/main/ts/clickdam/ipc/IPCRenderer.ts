@@ -1,5 +1,6 @@
 import { ipcRenderer, Event } from "electron";
 import { Dispatch } from "redux";
+import { deletedImageBuilder } from "../action/DeletedImage";
 import { endImportingImagesBuilder } from "../action/EndImportingImages";
 import { findedImagesBuilder } from "../action/FindedImages";
 import { startImportingImagesBuilder } from "../action/StartImportingImages";
@@ -19,6 +20,8 @@ export class IPCRenderer {
             dispatch(endImportingImagesBuilder(arg))
         }).on(ChannelNames.START_IMPORTING_IMAGES, (event: Event, arg: any) => {
             dispatch(startImportingImagesBuilder())
+        }).on(ChannelNames.DELETED_IMAGE, (event: Event, imageId: string) => {
+            dispatch(deletedImageBuilder(imageId))
         })
     }
 
@@ -28,5 +31,9 @@ export class IPCRenderer {
 
     static sendFindImages(filter: ImagesFilter) {
         ipcRenderer.send(ChannelNames.FIND_IMAGES, filter)
+    }
+
+    static sendDeleteImage(image: Image) {
+        ipcRenderer.send(ChannelNames.DELETE_IMAGE, image)
     }
 }

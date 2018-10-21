@@ -7,9 +7,9 @@ import ImagesView, { ImagesViewProps } from "./ImagesView";
 export const ImagesViewContainer = connect<ImagesViewProps, ImagesViewProps>(
     (state: AppState): ImagesViewProps => {
         return {
-            images: Array.from(state.images.values()),
-            loadedImageCount: Array.from(state.images.values()).length,
-            totalImageCount: state.totalImageCount,
+            images: Array.from(state.home.images.values()),
+            loadedImageCount: Array.from(state.home.images.values()).length,
+            totalImageCount: state.home.totalImageCount,
             imageSize: state.home.iconsSize
         } as ImagesViewProps;
     },

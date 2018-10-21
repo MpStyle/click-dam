@@ -11,10 +11,10 @@ import HomeHeader, { HomeHeaderProps } from "./HomeHeader";
 export const HomeHeaderContainer = connect<HomeHeaderProps, HomeHeaderProps>(
     (state: AppState): HomeHeaderProps => {
         return {
-            showFolderOpenButton: !state.importing,
-            showLoader: state.importing,
-            showRefreshButton: !state.importing,
-            importedImageCount: state.importedImageCount
+            showFolderOpenButton: !state.home.importing,
+            showLoader: state.home.importing,
+            showRefreshButton: !state.home.importing,
+            importedImageCount: state.home.importedImageCount
         } as HomeHeaderProps;
     },
     (dispatch: Dispatch): HomeHeaderProps => {

@@ -20,6 +20,7 @@ import { IPCRenderer } from "../ipc/IPCRenderer";
 
 export const appReducer = (state: AppState = Renderer.initialState, action: Action): AppState => {
     const newState = fetchNewState(state, action)
+    console.log(action, state, newState)
     return newState
 }
 
@@ -45,12 +46,15 @@ const fetchNewState = (state: AppState = Renderer.initialState, action: Action):
 
             return {
                 ...state,
-                currentImagesPage: -1,
-                images: new Map<string, Image>(),
-                search: textSearchAction.text
+                home: {
+                    ...state.home,
+                    page: -1,
+                    images: new Map<string, Image>(),
+                    textSearch: textSearchAction.text
+                },
             } as AppState
         case UPDATE_IMAGE_TYPE:
-            let images01: Map<string, Image> = new Map(state.images);
+            let images01: Map<string, Image> = new Map(state.home.images);
             let updateImageAction = action as UpdateImage
 
             images01.set(updateImageAction.image.id, updateImageAction.image)
@@ -59,48 +63,63 @@ const fetchNewState = (state: AppState = Renderer.initialState, action: Action):
 
             return {
                 ...state,
-                images: images01,
+                home: {
+                    ...state.home,
+                    images: images01,
+                }
             }
         case EMPTY_IMAGES_VIEW_TYPE:
             return {
                 ...state,
-                images: new Map<string, Image>(),
-                isLastPage: false,
-                currentImagesPage: -1,
-                importedImageCount: 0
+                home: {
+                    ...state.home,
+                    images: new Map<string, Image>(),
+                    isLastPage: false,
+                    page: -1,
+                    importedImageCount: 0
+                }
             }
         case START_IMPORTING_IMAGES_TYPE:
             return {
                 ...state,
-                importing: true
+                home: {
+                    ...state.home,
+                    importing: true
+                }
             }
         case END_IMPORTING_IMAGES_TYPE:
             let endImportingImagesAction = action as EndImportingImages
 
             return {
                 ...state,
-                importing: false,
-                importedImageCount: endImportingImagesAction.importedImageCount
+                home: {
+                    ...state.home,
+                    importing: false,
+                    importedImageCount: endImportingImagesAction.importedImageCount
+                }
             }
         case NEXT_PAGE_IMAGES_TYPE:
-            if (!state.isLastPage) {
-                const nextImagesPage = state.currentImagesPage + 1
+            if (!state.home.isLastPage) {
+                const nextImagesPage = state.home.page + 1
 
                 IPCRenderer.sendFindImages({
                     page: nextImagesPage,
-                    text: state.search
+                    text: state.home.textSearch
                 } as ImagesFilter)
 
                 return {
                     ...state,
-                    currentImagesPage: nextImagesPage,
-                    isLastPage: true
+                    home: {
+                        ...state.home,
+                        page: nextImagesPage,
+                        isLastPage: true
+                    }
                 }
             }
 
             return state
         case FINDED_IMAGES_TYPE:
-            let images02: Map<string, Image> = new Map(state.images);
+            let images02: Map<string, Image> = new Map(state.home.images);
             let findedImagesAction = action as FindedImages
 
             findedImagesAction.images.forEach((image: Image) => {
@@ -109,15 +128,21 @@ const fetchNewState = (state: AppState = Renderer.initialState, action: Action):
 
             return {
                 ...state,
-                images: images02,
-                isLastPage: findedImagesAction.images.length == 0,
-                totalImageCount: findedImagesAction.count
+                home: {
+                    ...state.home,
+                    images: images02,
+                    isLastPage: findedImagesAction.images.length == 0,
+                    totalImageCount: findedImagesAction.count
+                }
             } as AppState
         case EDIT_IMAGE_TYPE:
             let editImageAction = action as EditImage
             return {
                 ...state,
-                imageToEdit: editImageAction.image,
+                edit: {
+                    ...state.edit,
+                    imageToEdit: editImageAction.image,
+                },
                 page: Pages.EDIT
             }
         case BACK_TO_HOME_TYPE:

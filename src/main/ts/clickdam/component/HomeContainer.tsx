@@ -7,8 +7,8 @@ import { Home, HomeProps } from "./Home";
 export const HomeContainer = connect(
     (state: AppState): HomeProps => {
         return {
-            isLastPage: state.isLastPage,
-            currentPage: state.currentImagesPage
+            isLastPage: state.home.isLastPage,
+            currentPage: state.home.page
         } as HomeProps;
     },
     (dispatch: Dispatch): HomeProps => {

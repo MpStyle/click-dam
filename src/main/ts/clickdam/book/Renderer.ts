@@ -7,17 +7,19 @@ import { appReducer } from "../reducer/AppReducer";
 export class Renderer {
     public static readonly initialState: AppState = {
         home: {
-            iconsSize: 200
+            iconsSize: 200,
+            images: new Map<string, Image>(),
+            page: -1,
+            isLastPage: false,
+            textSearch: '',
+            importedImageCount: 0,
+            importing: false,
+            totalImageCount: 0
         },
-        images: new Map<string, Image>(),
-        currentImagesPage: -1,
-        isLastPage: false,
+        edit: {
+            imageToEdit: null,
+        },
         page: Pages.HOME,
-        imageToEdit: null,
-        search: '',
-        importedImageCount: 0,
-        importing: false,
-        totalImageCount: 0
     } as AppState
 
     static readonly appStore: Store<AppState> = createStore(

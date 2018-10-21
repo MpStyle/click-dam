@@ -9,7 +9,7 @@ import { EditImageData, EditImageDataProps } from "./EditImageData";
 export const EditImageDataContainer = connect(
     (state: AppState): EditImageDataProps => {
         return {
-            image: state.imageToEdit
+            image: state.edit.imageToEdit
         } as EditImageDataProps;
     },
     (dispatch: Dispatch): EditImageDataProps => {
